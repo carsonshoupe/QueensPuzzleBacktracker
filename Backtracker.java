@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 abstract class Backtracker<V>{
 	//Instance Variables: 
@@ -21,11 +22,9 @@ abstract class Backtracker<V>{
 	public Blank[] runBacktracker() throws UnsolveableException{
 		int blankTracker = 0; 
 		while (blankTracker < blanks.length){
-			System.out.println(blanks[blankTracker].toString());
 			if (blankTracker == -1){ //Quick exception check//
 				throw new UnsolveableException("There is no combination of values that makes this board work.");
-			}				
-			
+			}			
 			if (findWorkingValueForBlank(blanks[blankTracker]) == true){
 				blankTracker++;
 			}
@@ -45,15 +44,15 @@ abstract class Backtracker<V>{
 		}
 		else{
 			for (int finder = 0; finder<checkValues.length; finder++){
-				if (checkValues[finder].equals(inputBlank.getValue())){
-					checkValuesIndex = finder; 
+;
+				if (Objects.deepEquals(checkValues[finder], inputBlank.getValue()) == true){
+					checkValuesIndex = finder+1; 
+					break;
 				}
 			}
 		}
 		
 		while (checkValuesIndex < this.checkValues.length){
-			//System.out.println("checkValuesIndex: " + checkValuesIndex);
-			//System.out.println("checkValue: " + checkValues[checkValuesIndex]);
 			if (checkValueAtBlank(checkValues[checkValuesIndex], inputBlank) == true){
 				inputBlank.setValue(checkValues[checkValuesIndex]); 
 				return true; 
@@ -65,36 +64,3 @@ abstract class Backtracker<V>{
 		return false;
 	}
 }
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-				

@@ -1,33 +1,48 @@
-class ChessRow extends Blank<String []>{
+import java.util.Arrays;
+
+class ChessRow extends Blank<Integer>{
 	//Instance Variables: 
 	protected int rowLength; 
-	protected int queenLocation;
+	protected int columnNum; 
 	
 	
 	//Constructors: 
-	ChessRow(int rowLength){
+	ChessRow(int rowLength, int columnNum){
 		this.rowLength = rowLength;
-		value = new String[rowLength]; 
-		this.value[0] = "Q";
-		for (int counter = 1; counter < this.rowLength; counter ++){
-			this.value[counter] = "_"; 
-		}
-		this.queenLocation = 0; 
+		this.columnNum = columnNum; 
 	}
 	
 	//Methods:
-	public String [] getRow(){return this.value;}
-	public void setRow(String inputRow){this.value = inputRow;}
-	public int getQueenLocation(){return this.queenLocation;}
-	public void setQueenLocation(int inputQueenLocation){this.queenLocation = inputQueenLocation;}
+	public int getRowLength(){return this.rowLength;}
+	public void setRowLength(int rowLength){this.rowLength = rowLength;}
+	public Integer getQueenLocation(){return this.value;}
+	public void setQueenLocation(int inputQueenLocation){this.value = inputQueenLocation;}
+	public int getColumnNum(){return this.columnNum;}
+	public void setColumnNum(int columnNum){this.columnNum = columnNum;}
 	
-	public int findQueen(){
-		for (int counter = 0; counter < this.rowLength; counter++){
-			if (this.value[counter].equals("Q")){
-				return counter;
+	@Override
+	public String toString(){
+		if (value == null){
+			String returnString = ""; 
+			for (int counter = 0; counter < rowLength; counter++){
+				returnString = returnString + "_ "; 
 			}
+			returnString = returnString + "\n";
+			return returnString; 
 		}
-		return -1; 
+		else{
+			String returnString = ""; 
+			for (int counter = 0; counter < this.rowLength; counter++){
+				if (counter == this.value){
+					returnString = returnString + "Q ";
+				}
+				else{
+					returnString = returnString + "_ ";
+				}
+			}
+			returnString = returnString + "\n"; 
+			return returnString;
+		}
 	}
 	
 }

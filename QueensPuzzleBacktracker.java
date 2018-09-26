@@ -1,62 +1,69 @@
-class QueensPuzzleBacktracker extends Backtracker{
+class QueensPuzzleBacktracker extends Backtracker<Integer>{
 	//Instance Variables:
 	
 	//Constructors:
+	QueensPuzzleBacktracker(ChessRow[] arrOfChessRowBlanks, Integer[] arrOfQueenPositions, ChessBoard chessBoard){
+		this.blanks = arrOfChessRowBlanks; 
+		this.checkValues = arrOfQueenPositions; 
+		this.board = chessBoard; 
+	}
+		
 	
 	//Methods: 
-	
-	
-	
-	
-	
-	
-	public boolean checkValueAtBlank(String[] queenPositionAsArr, ChessRow inputChessRow){
-		if (checkColumn(queenPositionAsArr, inputChessRow) && checkDiagonal(queenPositionAsArr, inputChessRow) == true){
+	public boolean checkValueAtBlank(Integer queenPosition, Blank inputChessRow){
+		if (checkColumn(queenPosition, (ChessRow) inputChessRow) && checkDiagonal(queenPosition, (ChessRow) inputChessRow) == true){
 			return true; 
 		}
 		return false; 
 	}
-	
-	
-		//stopped here
-	
-	public boolean checkColumn(String[] queenPositionAsArr, ChessRow inputChessRow){
-		int queenIndex = this.findQueen(); 
-		ChessRows[] chessBoardRows = inputBoard.getChessRows();
+
+	public boolean checkColumn(Integer queenPosition, ChessRow inputChessRow){
+		int queenXCoordinate = queenPosition; 
+		int queenYCoordinate = inputChessRow.getColumnNum();
 		
-		for (int counter = 0; counter < 8; counter++){ 
-			if (chessBoardRows[counter].findQueen() == this){
+		ChessRow[] chessBoardRows = (ChessRow[]) this.board.getArrOfBlanks();
+		
+		for (int counter = 0; counter < inputChessRow.getRowLength(); counter++){ 
+			if (queenYCoordinate == counter){
+				continue; 
+			}
+			if (chessBoardRows[counter].getQueenLocation() == null){
 				continue;
 			}
-			if (queenIndex == chessBoardRows[counter].findQueen()){
-				return false;
+			if (chessBoardRows[counter].getQueenLocation() == queenXCoordinate){
+				return false; 
 			}
 		}
 		return true; 
 	}
-	public boolean checkDiagonal(String[] queenPositionAsArr, ChessRow inputChessRow){
-		Coordinate[][] chessBoardCoordinates = inputBoard.getCoordinates(); 
-		int positiveDiagonal = this.getXCoordinate() + this.getYCoordinate(); 
-		int negativeDiagonal = this.getXCoordinate() - this.getYCoordinate(); 
-		
-		for (int yCounter = 0; yCounter<8; yCounter++){
-			for (int xCounter = 0; xCounter<8; xCounter++){
-				Coordinate checkCoordinate = chessBoardCoordinates[xCounter][yCounter]; 
-				int checkPositiveDiagonal = checkCoordinate.getXCoordinate() + checkCoordinate.getYCoordinate(); 
-				int checkNegativeDiagonal = checkCoordinate.getXCoordinate() - checkCoordinate.getYCoordinate(); 
 				
-				if (positiveDiagonal == checkPositiveDiagonal || negativeDiagonal == checkNegativeDiagonal){
-					if (checkCoordinate.getValue() == null){
-						continue;
-					}
-					if (checkCoordinate.equals(this)){
-						continue;
-					}
-					if (checkCoordinate.getValue() == checkValue){
-						return false;
-					}
-				}
+
+	public boolean checkDiagonal(Integer queenPosition, ChessRow inputChessRow){
+		int queenXCoordinate = queenPosition; 
+		int queenYCoordinate = inputChessRow.getColumnNum();
+		
+		ChessRow[] chessBoardRows = (ChessRow[]) this.board.getArrOfBlanks(); 
+		
+		int positiveDiagonal = queenXCoordinate + queenYCoordinate; 
+		int negativeDiagonal = queenXCoordinate - queenYCoordinate; 
+		
+		for (int counter = 0; counter < inputChessRow.getRowLength(); counter++){
+			if (queenYCoordinate == counter){
+				continue;
+			}
+			if (chessBoardRows[counter].getQueenLocation() == null){
+				continue;
+			}
+				
+			int checkQueenXCoordinate = chessBoardRows[counter].getQueenLocation(); 
+			int checkQueenYCoordinate = counter; 
+			int checkPositiveDiagonal = checkQueenXCoordinate + checkQueenYCoordinate; 
+			int checkNegativeDiagonal = checkQueenXCoordinate - checkQueenYCoordinate; 
+			
+			if (positiveDiagonal == checkPositiveDiagonal || negativeDiagonal == checkNegativeDiagonal){
+				return false; 
 			}
 		}
-		return true;
+		return true; 
 	}
+}
