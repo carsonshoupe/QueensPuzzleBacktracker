@@ -19,7 +19,7 @@ abstract class Backtracker<V>{
 	public abstract boolean checkValueAtBlank(V checkValue, Blank inputBlank);
 	//give checkValueAtBlank a value and a blank, and it tells you whether that value meets the conditions you provide it. 
 	
-	public Blank[] runBacktracker() throws UnsolveableException{
+	public Blank[] runBacktracker() throws UnsolveableException, BacktrackerException{
 		int blankTracker = 0; 
 		while (blankTracker < blanks.length){
 			if (blankTracker == -1){ //Quick exception check//
@@ -36,7 +36,7 @@ abstract class Backtracker<V>{
 		return this.blanks; 
 	}
 	
-	public boolean findWorkingValueForBlank(Blank inputBlank){
+	public boolean findWorkingValueForBlank(Blank inputBlank) throws BacktrackerException{
 		//Finds and sets a working value for a blank
 		int checkValuesIndex = -1; 
 		if (inputBlank.getValue() == null){
@@ -44,12 +44,15 @@ abstract class Backtracker<V>{
 		}
 		else{
 			for (int finder = 0; finder<checkValues.length; finder++){
-;
 				if (Objects.deepEquals(checkValues[finder], inputBlank.getValue()) == true){
 					checkValuesIndex = finder+1; 
 					break;
 				}
 			}
+		}
+		
+		if (checkValuesIndex == -1){
+			throw new BacktrackerException("Backtracker failed to find the value in the blank in the set of checkvalues."); 
 		}
 		
 		while (checkValuesIndex < this.checkValues.length){

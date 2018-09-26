@@ -7,7 +7,7 @@ public class QueensPuzzleBacktrackerTest{
 	
 	@Test
 	public void testQueenPuzzleBacktracker(){
-		int howBig = 30;
+		int howBig = 8;
 		ChessBoard testChessBoard = new ChessBoard(howBig); 
 		ChessRow[] testArrOfChessRowBlanks = (ChessRow[]) testChessBoard.getArrOfBlanks(); 
 		
@@ -28,6 +28,9 @@ public class QueensPuzzleBacktrackerTest{
 		}
 		catch(UnsolveableException e){
 			System.out.println(e.getMessage()); 
+		}
+		catch(BacktrackerException ex){
+			System.out.println(ex.getMessage());
 		}
 		
 		System.out.println(testChessBoard.toString());
